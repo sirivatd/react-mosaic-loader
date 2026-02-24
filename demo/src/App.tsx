@@ -6,6 +6,7 @@ const SMOOTH_EASING = 'cubic-bezier(0.33, 0, 0.2, 1)';
 const NPM_INSTALL = 'npm install react-mosaic-loader';
 const NPM_URL = 'https://www.npmjs.com/package/react-mosaic-loader';
 const GITHUB_URL = 'https://github.com/sirivatd/react-mosaic-loader';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/donsirivat/';
 
 type ShapeOption = 'square' | 'circle' | 'squircle' | 'play';
 
@@ -80,6 +81,10 @@ export default function App() {
           <span className="header-link-sep">·</span>
           <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="header-link">
             GitHub
+          </a>
+          <span className="header-link-sep">·</span>
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="header-link">
+            Developer
           </a>
         </nav>
         <h1 className="title">react-mosaic-loader</h1>
