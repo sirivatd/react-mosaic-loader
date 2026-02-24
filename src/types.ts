@@ -8,10 +8,14 @@ export interface DotSample {
 
 import type { CSSProperties } from 'react';
 
+export type RenderMode = 'auto' | 'svg' | 'canvas';
+export type QualityMode = 'auto' | 'high' | 'balanced' | 'low';
+export type AnimationPreset = 'calm' | 'vivid' | 'minimal';
+
 export interface DotsProps {
   /** Image URL to sample. On load/CORS failure, falls back to monochrome grid. */
   src?: string | null;
-  /** Grid density: number of dots per row/column (e.g. 16 → 16×16). Ignored if dotCount is set. */
+  /** Grid density: number of dots per row/column (e.g. 16 -> 16x16). Ignored if dotCount is set. */
   gridSize?: number;
   /** Approximate total number of dots. Grid size is derived as sqrt(dotCount) per side. */
   dotCount?: number;
@@ -25,7 +29,7 @@ export interface DotsProps {
   gap?: number;
   /** Animation duration per dot cycle (ms). */
   duration?: number;
-  /** Easing for the wave animation. */
+  /** Easing for the wave animation (SVG mode). */
   easing?: string;
   /** Optional CSS class for the container. */
   className?: string;
@@ -37,12 +41,20 @@ export interface DotsProps {
   shape?: 'square' | 'circle' | 'squircle' | 'play';
   /** Animation speed multiplier. 1 = normal, 2 = twice as fast. */
   speed?: number;
-  /** Minimum opacity (0–1) at wave trough. */
+  /** Minimum opacity (0-1) at wave trough. */
   minOpacity?: number;
-  /** Maximum opacity (0–1) at wave peak. */
+  /** Maximum opacity (0-1) at wave peak. */
   maxOpacity?: number;
-  /** Minimum scale (0–2) at wave trough. */
+  /** Minimum scale (0-2) at wave trough. */
   minScale?: number;
-  /** Maximum scale (0–2) at wave peak. */
+  /** Maximum scale (0-2) at wave peak. */
   maxScale?: number;
+  /** Renderer selection. auto uses canvas for larger dot counts. */
+  renderMode?: RenderMode;
+  /** Quality profile tuned for device capability and smoothness. */
+  quality?: QualityMode;
+  /** Tuned animation profile for product-ready defaults. */
+  animationPreset?: AnimationPreset;
+  /** Force reduced motion behavior. If undefined, uses prefers-reduced-motion. */
+  reducedMotion?: boolean;
 }

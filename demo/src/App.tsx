@@ -3,6 +3,7 @@ import { Dots } from 'react-mosaic-loader';
 
 const DEMO_IMAGE = 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&h=400&fit=crop';
 const SMOOTH_EASING = 'cubic-bezier(0.33, 0, 0.2, 1)';
+const DEFAULT_PRESET = 'calm';
 const NPM_INSTALL = 'npm install react-mosaic-loader';
 const NPM_URL = 'https://www.npmjs.com/package/react-mosaic-loader';
 const GITHUB_URL = 'https://github.com/sirivatd/react-mosaic-loader';
@@ -108,6 +109,9 @@ export default function App() {
                 dotRadius={2.5}
                 duration={2800}
                 easing={SMOOTH_EASING}
+                animationPreset={DEFAULT_PRESET}
+                quality="auto"
+                renderMode="auto"
                 shape="circle"
                 crossOrigin="anonymous"
               />
@@ -124,6 +128,9 @@ export default function App() {
                 dotRadius={3}
                 duration={2800}
                 easing={SMOOTH_EASING}
+                animationPreset={DEFAULT_PRESET}
+                quality="auto"
+                renderMode="auto"
                 shape="squircle"
               />
             </div>
@@ -140,6 +147,9 @@ export default function App() {
                 dotRadius={1.8}
                 duration={3200}
                 easing={SMOOTH_EASING}
+                animationPreset={DEFAULT_PRESET}
+                quality="auto"
+                renderMode="auto"
                 shape="play"
                 crossOrigin="anonymous"
               />
@@ -325,6 +335,9 @@ export default function App() {
             minScale={minScale}
             maxScale={maxScale}
             easing={SMOOTH_EASING}
+            animationPreset={DEFAULT_PRESET}
+            quality="auto"
+            renderMode="auto"
             shape={shape}
             crossOrigin={uploadedUrl ? '' : 'anonymous'}
           />
