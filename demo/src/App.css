@@ -1,0 +1,312 @@
+.page {
+  min-height: 100vh;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 6vw, 4rem);
+  max-width: 36rem;
+}
+
+.header-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.header-link {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.header-link:hover {
+  color: var(--text);
+}
+
+.header-link-sep {
+  color: var(--border);
+  font-size: 0.75rem;
+  user-select: none;
+}
+
+.title {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.section {
+  width: 100%;
+  max-width: 56rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.section-title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem;
+}
+
+.section-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+  max-width: 32rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  width: 100%;
+  max-width: 312px;
+}
+
+.card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.loader-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.loader-wrap.large {
+  min-height: 320px;
+  margin-top: 0.5rem;
+}
+
+.try-section .loader-wrap.large {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.controls-panel {
+  width: 100%;
+  max-width: 36rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.controls-title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  cursor: default;
+}
+
+.control-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.control input[type="range"] {
+  width: 100%;
+  height: 6px;
+  accent-color: var(--accent);
+  background: var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.control-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.control-shape {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.control-select {
+  padding: 0.4rem 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  outline: none;
+}
+
+.control-select:focus {
+  border-color: var(--accent);
+}
+
+.try-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.input {
+  flex: 1;
+  min-width: 12rem;
+  max-width: 28rem;
+  padding: 0.625rem 0.875rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.btn {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.btn-upload {
+  flex-shrink: 0;
+}
+
+.btn-clear {
+  color: var(--text-muted);
+}
+
+.btn-clear:hover {
+  color: var(--text);
+}
+
+.input-row {
+  margin-bottom: 0.5rem;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: clamp(2rem, 5vw, 3rem);
+}
+
+.install-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.install {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  padding: 0.5rem 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  user-select: all;
+  cursor: text;
+}
+
+.copy-btn {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.copy-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}

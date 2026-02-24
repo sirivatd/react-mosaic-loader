@@ -1,0 +1,48 @@
+export interface DotSample {
+  x: number;
+  y: number;
+  color: string;
+  gridX: number;
+  gridY: number;
+}
+
+import type { CSSProperties } from 'react';
+
+export interface DotsProps {
+  /** Image URL to sample. On load/CORS failure, falls back to monochrome grid. */
+  src?: string | null;
+  /** Grid density: number of dots per row/column (e.g. 16 → 16×16). Ignored if dotCount is set. */
+  gridSize?: number;
+  /** Approximate total number of dots. Grid size is derived as sqrt(dotCount) per side. */
+  dotCount?: number;
+  /** Width of the component in pixels. */
+  width?: number;
+  /** Height of the component in pixels. */
+  height?: number;
+  /** Dot radius in pixels. */
+  dotRadius?: number;
+  /** Gap between dot centers in pixels. Auto-derived from width/height and gridSize if not set. */
+  gap?: number;
+  /** Animation duration per dot cycle (ms). */
+  duration?: number;
+  /** Easing for the wave animation. */
+  easing?: string;
+  /** Optional CSS class for the container. */
+  className?: string;
+  /** Optional inline styles for the container. */
+  style?: CSSProperties;
+  /** CrossOrigin for image (e.g. 'anonymous' for CORS). */
+  crossOrigin?: '' | 'anonymous' | 'use-credentials';
+  /** Shape of the dot layout: square (default), circle, squircle, or play (triangle). */
+  shape?: 'square' | 'circle' | 'squircle' | 'play';
+  /** Animation speed multiplier. 1 = normal, 2 = twice as fast. */
+  speed?: number;
+  /** Minimum opacity (0–1) at wave trough. */
+  minOpacity?: number;
+  /** Maximum opacity (0–1) at wave peak. */
+  maxOpacity?: number;
+  /** Minimum scale (0–2) at wave trough. */
+  minScale?: number;
+  /** Maximum scale (0–2) at wave peak. */
+  maxScale?: number;
+}

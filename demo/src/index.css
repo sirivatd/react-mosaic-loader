@@ -1,0 +1,34 @@
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --border: #1f1f1f;
+  --text: #e5e5e5;
+  --text-muted: #737373;
+  --accent: #404040;
+  --radius: 6px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+#root {
+  min-height: 100vh;
+}

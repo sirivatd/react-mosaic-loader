@@ -1,0 +1,51 @@
+{
+  "name": "react-mosaic-loader",
+  "version": "1.2.0",
+  "description": "Context-aware, image-sampling geometric dot matrix (loader) for React",
+  "type": "module",
+  "main": "./dist/react-dots.umd.cjs",
+  "module": "./dist/react-dots.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/react-dots.js",
+      "require": "./dist/react-dots.umd.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.7.0"
+  },
+  "keywords": [
+    "react",
+    "dots",
+    "image",
+    "canvas",
+    "sampling",
+    "grid",
+    "animation"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/don-sirivat/react-mosaic-loader.git"
+  }
+}
