@@ -47,5 +47,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/don-sirivat/react-mosaic-loader.git"
+  },
+  "homepage": "https://github.com/don-sirivat/react-mosaic-loader#readme",
+  "bugs": {
+    "url": "https://github.com/don-sirivat/react-mosaic-loader/issues"
   }
 }
