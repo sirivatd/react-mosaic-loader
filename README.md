@@ -4,7 +4,7 @@
 
 **React image-sampling loader** — Renders an image as a grid of dots by sampling pixel data on an off-screen canvas, with an organic staggered wave animation. Use as a loader, placeholder, or visual effect. Supports shapes (circle, squircle, play icon), speed, opacity/scale, and dot count. Degrades to a monochrome grid on load or CORS failure.
 
-- **[Live demo](https://demo-puce-chi.vercel.app)** · **[GitHub](https://github.com/don-sirivat/react-mosaic-loader)** · **[npm](https://www.npmjs.com/package/react-mosaic-loader)**
+- **[Live demo](https://demo-puce-chi.vercel.app)** · **[GitHub](https://github.com/sirivatd/react-mosaic-loader)** · **[npm](https://www.npmjs.com/package/react-mosaic-loader)**
 
 ---
 
@@ -62,7 +62,7 @@ React loader, image loader, dot matrix, pixel sampling, canvas loader, React pla
 ## Links
 
 - **Demo:** [demo-puce-chi.vercel.app](https://demo-puce-chi.vercel.app)
-- **Repository:** [github.com/don-sirivat/react-mosaic-loader](https://github.com/don-sirivat/react-mosaic-loader)
+- **Repository:** [github.com/sirivatd/react-mosaic-loader](https://github.com/sirivatd/react-mosaic-loader)
 - **npm:** [npmjs.com/package/react-mosaic-loader](https://www.npmjs.com/package/react-mosaic-loader)
 
 ## License

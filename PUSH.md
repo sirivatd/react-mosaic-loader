@@ -1,9 +1,9 @@
 # Push to GitHub
 
-The remote is set to `https://github.com/don-sirivat/react-mosaic-loader.git`.
+The remote is set to `https://github.com/sirivatd/react-mosaic-loader.git`.
 
 1. Create a new **public** repository on GitHub:
-   - **Owner:** don-sirivat (or your username)
+   - **Owner:** sirivatd (or your username)
    - **Repository name:** react-mosaic-loader
    - Do **not** add a README, .gitignore, or license (they already exist locally)
 

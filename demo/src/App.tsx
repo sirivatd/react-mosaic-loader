@@ -5,7 +5,7 @@ const DEMO_IMAGE = 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=
 const SMOOTH_EASING = 'cubic-bezier(0.33, 0, 0.2, 1)';
 const NPM_INSTALL = 'npm install react-mosaic-loader';
 const NPM_URL = 'https://www.npmjs.com/package/react-mosaic-loader';
-const GITHUB_URL = 'https://github.com/don-sirivat/react-mosaic-loader';
+const GITHUB_URL = 'https://github.com/sirivatd/react-mosaic-loader';
 
 type ShapeOption = 'square' | 'circle' | 'squircle' | 'play';
 

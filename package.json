@@ -46,10 +46,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/don-sirivat/react-mosaic-loader.git"
+    "url": "https://github.com/sirivatd/react-mosaic-loader.git"
   },
-  "homepage": "https://github.com/don-sirivat/react-mosaic-loader#readme",
+  "homepage": "https://github.com/sirivatd/react-mosaic-loader#readme",
   "bugs": {
-    "url": "https://github.com/don-sirivat/react-mosaic-loader/issues"
+    "url": "https://github.com/sirivatd/react-mosaic-loader/issues"
   }
 }
