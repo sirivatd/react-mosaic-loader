@@ -1,7 +1,7 @@
 {
   "name": "react-mosaic-loader",
-  "version": "1.3.0",
-  "description": "Context-aware, image-sampling geometric dot matrix (loader) for React",
+  "version": "1.4.0",
+  "description": "React image-sampling loader — Mosaic grid of animated dots from image or gradient. Use as loader, placeholder, or visual effect. Supports circle, squircle, diamond, hexagon, and more.",
   "type": "module",
   "main": "./dist/react-dots.umd.cjs",
   "module": "./dist/react-dots.js",
@@ -36,17 +36,29 @@
   },
   "keywords": [
     "react",
+    "react-component",
+    "loader",
+    "loading",
+    "spinner",
+    "mosaic",
     "dots",
+    "dot-matrix",
     "image",
     "canvas",
     "sampling",
     "grid",
-    "animation"
+    "animation",
+    "placeholder",
+    "skeleton",
+    "geometric",
+    "hexagon",
+    "diamond",
+    "squircle"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sirivatd/react-mosaic-loader.git"
+    "url": "git+https://github.com/sirivatd/react-mosaic-loader.git"
   },
   "homepage": "https://github.com/sirivatd/react-mosaic-loader#readme",
   "bugs": {

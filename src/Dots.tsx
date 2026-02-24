@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { useImageSampler } from './useImageSampler';
 import { isInsideShape } from './shapes';
-import type { DotsProps } from './types';
+import type { MosaicProps } from './types';
 
 const DEFAULT_GRID_SIZE = 16;
 const DEFAULT_WIDTH = 320;
@@ -77,7 +77,56 @@ function hexToRgb(color: string): [number, number, number] {
       parseInt(color.slice(5, 7), 16),
     ];
   }
+  const rgb = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/);
+  if (rgb) return [Number(rgb[1]), Number(rgb[2]), Number(rgb[3])];
   return [26, 26, 26];
+}
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return '#' + [r, g, b].map((x) => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0')).join('');
+}
+
+/** Interpolate between gradient stops; t in 0..1. Stops should use hex colors. */
+function sampleGradient(
+  stops: Array<{ offset: number; color: string }>,
+  t: number
+): string {
+  const sorted = [...stops].sort((a, b) => a.offset - b.offset);
+  if (sorted.length === 0) return '#1a1a1a';
+  if (sorted.length === 1 || t <= sorted[0].offset) return sorted[0].color;
+  if (t >= sorted[sorted.length - 1].offset) return sorted[sorted.length - 1].color;
+  let i = 0;
+  while (i + 1 < sorted.length && sorted[i + 1].offset < t) i += 1;
+  const a = sorted[i];
+  const b = sorted[i + 1];
+  const local = (t - a.offset) / (b.offset - a.offset);
+  const c1 = hexToRgb(a.color);
+  const c2 = hexToRgb(b.color);
+  const r = Math.round(c1[0] + (c2[0] - c1[0]) * local);
+  const g = Math.round(c1[1] + (c2[1] - c1[1]) * local);
+  const bl = Math.round(c1[2] + (c2[2] - c1[2]) * local);
+  return rgbToHex(r, g, bl);
+}
+
+/** Get 0..1 position along gradient direction (angle in degrees). */
+function gradientT(x: number, y: number, angleDeg: number): number {
+  const rad = (angleDeg * Math.PI) / 180;
+  return (x * Math.cos(rad) + y * Math.sin(rad) + 1) / 2;
+}
+
+function resolveColor(
+  colorProp: MosaicProps['color'],
+  normX: number,
+  normY: number
+): string | null {
+  if (colorProp == null) return null;
+  if (typeof colorProp === 'string') return colorProp;
+  if (colorProp.type === 'linear') {
+    const angle = colorProp.angle ?? 0;
+    const t = clamp(gradientT(normX, normY, angle), 0, 1);
+    return sampleGradient(colorProp.stops, t);
+  }
+  return null;
 }
 
 function usePrefersReducedMotion() {
@@ -104,7 +153,7 @@ function usePrefersReducedMotion() {
   return prefersReducedMotion;
 }
 
-function qualityGridSize(baseGridSize: number, quality: DotsProps['quality']): number {
+function qualityGridSize(baseGridSize: number, quality: MosaicProps['quality']): number {
   const safeGrid = Math.max(1, baseGridSize);
 
   if (quality === 'high') return safeGrid;
@@ -121,12 +170,13 @@ function qualityGridSize(baseGridSize: number, quality: DotsProps['quality']): n
   return safeGrid;
 }
 
-export function Dots({
+export function Mosaic({
   src = null,
   gridSize = DEFAULT_GRID_SIZE,
   dotCount,
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  size,
   dotRadius = DEFAULT_DOT_RADIUS,
   gap,
   duration = DEFAULT_DURATION,
@@ -144,7 +194,10 @@ export function Dots({
   className,
   style,
   crossOrigin = 'anonymous',
-}: DotsProps) {
+  color: colorProp,
+}: MosaicProps) {
+  const effectiveWidth = size != null ? size : width;
+  const effectiveHeight = size != null ? size : height;
   const prefersReducedMotion = usePrefersReducedMotion();
   const effectiveReducedMotion = reducedMotion ?? prefersReducedMotion;
 
@@ -161,8 +214,8 @@ export function Dots({
   const { dots, loading } = useImageSampler({
     src,
     gridSize: effectiveGridSize,
-    width,
-    height,
+    width: effectiveWidth,
+    height: effectiveHeight,
     gap,
     crossOrigin,
   });
@@ -172,11 +225,11 @@ export function Dots({
   const visibleDots = useMemo(() => {
     if (shape === 'square') return dots;
     return dots.filter((d) => {
-      const nx = width > 0 ? d.x / width : 0;
-      const ny = height > 0 ? d.y / height : 0;
+      const nx = effectiveWidth > 0 ? d.x / effectiveWidth : 0;
+      const ny = effectiveHeight > 0 ? d.y / effectiveHeight : 0;
       return isInsideShape(nx, ny, shape);
     });
-  }, [dots, shape, width, height]);
+  }, [dots, shape, effectiveWidth, effectiveHeight]);
 
   const maxGrid = useMemo(() => {
     let maxX = 0;
@@ -207,18 +260,23 @@ export function Dots({
       const periodMs = Math.max(700, effectiveDuration + (h - 0.5) * preset.durationSpread);
       const depth = 1 - radial * 0.22;
 
+      const normX = effectiveWidth > 0 ? dot.x / effectiveWidth : 0;
+      const normY = effectiveHeight > 0 ? dot.y / effectiveHeight : 0;
+      const resolvedColor = resolveColor(colorProp, normX, normY) ?? dot.color;
+      const resolvedRgb = hexToRgb(resolvedColor);
+
       return {
         key: `${dot.gridX}-${dot.gridY}`,
         x: dot.x,
         y: dot.y,
-        color: dot.color,
-        rgb: hexToRgb(dot.color),
+        color: resolvedColor,
+        rgb: resolvedRgb,
         delayMs,
         periodMs,
         depth,
       };
     });
-  }, [visibleDots, maxGrid.maxX, maxGrid.maxY, effectiveDuration, preset]);
+  }, [visibleDots, maxGrid.maxX, maxGrid.maxY, effectiveDuration, preset, colorProp, effectiveWidth, effectiveHeight]);
 
   const resolvedRenderMode = useMemo(() => {
     if (renderMode !== 'auto') return renderMode;
@@ -233,10 +291,10 @@ export function Dots({
     if (!canvas) return;
 
     const dpr = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
-    canvas.width = Math.max(1, Math.round(width * dpr));
-    canvas.height = Math.max(1, Math.round(height * dpr));
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+    canvas.width = Math.max(1, Math.round(effectiveWidth * dpr));
+    canvas.height = Math.max(1, Math.round(effectiveHeight * dpr));
+    canvas.style.width = `${effectiveWidth}px`;
+    canvas.style.height = `${effectiveHeight}px`;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -247,7 +305,7 @@ export function Dots({
     let rafId = 0;
 
     const draw = (time: number) => {
-      ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, effectiveWidth, effectiveHeight);
 
       for (const dot of runtimeDots) {
         const phase = effectiveReducedMotion
@@ -284,8 +342,8 @@ export function Dots({
   }, [
     resolvedRenderMode,
     runtimeDots,
-    width,
-    height,
+    effectiveWidth,
+    effectiveHeight,
     dotRadius,
     resolvedMinOpacity,
     resolvedMaxOpacity,
@@ -308,8 +366,8 @@ export function Dots({
       className={className}
       style={{
         position: 'relative',
-        width,
-        height,
+        width: effectiveWidth,
+        height: effectiveHeight,
         overflow: 'hidden',
         backgroundColor: '#0d0d0d',
         ...cssVars,
@@ -321,7 +379,7 @@ export function Dots({
       {resolvedRenderMode === 'canvas' ? (
         <canvas ref={canvasRef} style={{ display: 'block' }} aria-hidden />
       ) : (
-        <svg width={width} height={height} style={{ display: 'block', overflow: 'visible' }} aria-hidden>
+        <svg width={effectiveWidth} height={effectiveHeight} style={{ display: 'block', overflow: 'visible' }} aria-hidden>
           <defs>
             <style>
               {`
@@ -364,4 +422,4 @@ export function Dots({
   );
 }
 
-export default Dots;
+export default Mosaic;

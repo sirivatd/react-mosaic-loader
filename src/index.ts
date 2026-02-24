@@ -1,8 +1,11 @@
-export { Dots } from './Dots';
+export { Mosaic } from './Dots';
+export { Mosaic as Dots } from './Dots';
 export { useImageSampler } from './useImageSampler';
 export type {
+  MosaicProps,
   DotsProps,
   DotSample,
+  ColorProp,
   RenderMode,
   QualityMode,
   AnimationPreset,

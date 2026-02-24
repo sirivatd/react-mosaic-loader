@@ -1,4 +1,4 @@
-export type ShapeKind = 'square' | 'circle' | 'squircle' | 'play';
+export type ShapeKind = 'square' | 'circle' | 'squircle' | 'play' | 'diamond' | 'hexagon';
 
 /** Normalized coords nx, ny in [0, 1]. Returns true if point is inside the shape. */
 export function isInsideShape(nx: number, ny: number, shape: ShapeKind): boolean {
@@ -18,9 +18,41 @@ export function isInsideShape(nx: number, ny: number, shape: ShapeKind): boolean
     case 'play': {
       return pointInTriangle(nx, ny, 0.22, 0.28, 0.22, 0.72, 0.82, 0.5);
     }
+    case 'diamond': {
+      const dx = Math.abs(nx - 0.5);
+      const dy = Math.abs(ny - 0.5);
+      return dx + dy <= 0.5;
+    }
+    case 'hexagon': {
+      const cx = 0.5;
+      const cy = 0.5;
+      const r = 0.5;
+      const vertices: [number, number][] = [
+        [cx, cy - r],
+        [cx + (r * Math.sqrt(3)) / 2, cy - r / 2],
+        [cx + (r * Math.sqrt(3)) / 2, cy + r / 2],
+        [cx, cy + r],
+        [cx - (r * Math.sqrt(3)) / 2, cy + r / 2],
+        [cx - (r * Math.sqrt(3)) / 2, cy - r / 2],
+      ];
+      return pointInPolygon(nx, ny, vertices);
+    }
     default:
       return true;
   }
+}
+
+function pointInPolygon(px: number, py: number, vertices: [number, number][]): boolean {
+  let inside = false;
+  const n = vertices.length;
+  for (let i = 0, j = n - 1; i < n; j = i++) {
+    const [xi, yi] = vertices[i];
+    const [xj, yj] = vertices[j];
+    if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) {
+      inside = !inside;
+    }
+  }
+  return inside;
 }
 
 function pointInTriangle(

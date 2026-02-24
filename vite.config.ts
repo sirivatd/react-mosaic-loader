@@ -16,7 +16,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'ReactDots',
+      name: 'ReactMosaic',
       fileName: (format) =>
         format === 'es' ? 'react-dots.js' : 'react-dots.umd.cjs',
       formats: ['es', 'umd'],

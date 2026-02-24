@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Dots } from 'react-mosaic-loader';
+import { Mosaic } from 'react-mosaic-loader';
 
 const DEMO_IMAGE = 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&h=400&fit=crop';
 const SMOOTH_EASING = 'cubic-bezier(0.33, 0, 0.2, 1)';
@@ -9,7 +9,7 @@ const NPM_URL = 'https://www.npmjs.com/package/react-mosaic-loader';
 const GITHUB_URL = 'https://github.com/sirivatd/react-mosaic-loader';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/donsirivat/';
 
-type ShapeOption = 'square' | 'circle' | 'squircle' | 'play';
+type ShapeOption = 'square' | 'circle' | 'squircle' | 'play' | 'diamond' | 'hexagon';
 
 export default function App() {
   const [customSrc, setCustomSrc] = useState('');
@@ -19,8 +19,13 @@ export default function App() {
   const [speed, setSpeed] = useState(1);
   const [duration, setDuration] = useState(2800);
   const [gridSize, setGridSize] = useState(22);
-  const [dotCount, setDotCount] = useState(484);
   const [dotRadius, setDotRadius] = useState(2.5);
+  const [loaderSize, setLoaderSize] = useState(320);
+  const [colorMode, setColorMode] = useState<'image' | 'single' | 'gradient'>('image');
+  const [singleColor, setSingleColor] = useState('#a855f7');
+  const [gradientStart, setGradientStart] = useState('#6366f1');
+  const [gradientEnd, setGradientEnd] = useState('#ec4899');
+  const [gradientAngle, setGradientAngle] = useState(90);
   const [minOpacity, setMinOpacity] = useState(0.3);
   const [maxOpacity, setMaxOpacity] = useState(1);
   const [minScale, setMinScale] = useState(0.72);
@@ -92,6 +97,18 @@ export default function App() {
         <p className="tagline">
           Image-sampling geometric matrix. Pixel data mapped to a grid of dots with a staggered wave animation.
         </p>
+        <div className="install-wrap install-wrap-hero">
+          <code className="install" title={NPM_INSTALL}>{NPM_INSTALL}</code>
+          <button
+            type="button"
+            onClick={copyInstall}
+            className="copy-btn"
+            title="Copy to clipboard"
+            aria-label="Copy install command"
+          >
+            {copied ? 'Copied!' : 'Copy'}
+          </button>
+        </div>
       </header>
 
       <section className="section">
@@ -100,12 +117,11 @@ export default function App() {
         <div className="grid">
           <div className="card">
             <div className="card-label">Circle · 24×24</div>
-            <div className="loader-wrap">
-              <Dots
+            <div className="loader-wrap loader-wrap-sm">
+              <Mosaic
                 src={DEMO_IMAGE}
                 gridSize={24}
-                width={280}
-                height={280}
+                size={200}
                 dotRadius={2.5}
                 duration={2800}
                 easing={SMOOTH_EASING}
@@ -120,11 +136,10 @@ export default function App() {
 
           <div className="card">
             <div className="card-label">Squircle · fallback</div>
-            <div className="loader-wrap">
-              <Dots
+            <div className="loader-wrap loader-wrap-sm">
+              <Mosaic
                 gridSize={20}
-                width={280}
-                height={280}
+                size={200}
                 dotRadius={3}
                 duration={2800}
                 easing={SMOOTH_EASING}
@@ -139,7 +154,7 @@ export default function App() {
           <div className="card">
             <div className="card-label">Play icon · 32×32</div>
             <div className="loader-wrap">
-              <Dots
+              <Mosaic
                 src={DEMO_IMAGE}
                 gridSize={32}
                 width={280}
@@ -151,6 +166,46 @@ export default function App() {
                 quality="auto"
                 renderMode="auto"
                 shape="play"
+                crossOrigin="anonymous"
+              />
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card-label">Diamond · 24×24</div>
+            <div className="loader-wrap">
+              <Mosaic
+                src={DEMO_IMAGE}
+                gridSize={24}
+                width={280}
+                height={280}
+                dotRadius={2.5}
+                duration={2800}
+                easing={SMOOTH_EASING}
+                animationPreset={DEFAULT_PRESET}
+                quality="auto"
+                renderMode="auto"
+                shape="diamond"
+                crossOrigin="anonymous"
+              />
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card-label">Hexagon · 22×22</div>
+            <div className="loader-wrap">
+              <Mosaic
+                src={DEMO_IMAGE}
+                gridSize={22}
+                width={280}
+                height={280}
+                dotRadius={2.6}
+                duration={2800}
+                easing={SMOOTH_EASING}
+                animationPreset={DEFAULT_PRESET}
+                quality="auto"
+                renderMode="auto"
+                shape="hexagon"
                 crossOrigin="anonymous"
               />
             </div>
@@ -234,16 +289,16 @@ export default function App() {
               <span className="control-value">{gridSize}</span>
             </label>
             <label className="control">
-              <span className="control-label">Number of dots</span>
+              <span className="control-label">Loader size (px)</span>
               <input
                 type="range"
-                min={64}
-                max={1600}
-                step={1}
-                value={dotCount}
-                onChange={(e) => setDotCount(Number(e.target.value))}
+                min={80}
+                max={480}
+                step={16}
+                value={loaderSize}
+                onChange={(e) => setLoaderSize(Number(e.target.value))}
               />
-              <span className="control-value">{dotCount}</span>
+              <span className="control-value">{loaderSize}</span>
             </label>
             <label className="control">
               <span className="control-label">Dot radius</span>
@@ -316,17 +371,66 @@ export default function App() {
                 <option value="circle">Circle</option>
                 <option value="squircle">Squircle</option>
                 <option value="play">Play</option>
+                <option value="diamond">Diamond</option>
+                <option value="hexagon">Hexagon</option>
               </select>
             </div>
+            <div className="control control-shape">
+              <span className="control-label">Color</span>
+              <select
+                value={colorMode}
+                onChange={(e) => setColorMode(e.target.value as 'image' | 'single' | 'gradient')}
+                className="control-select"
+              >
+                <option value="image">Image</option>
+                <option value="single">Single color</option>
+                <option value="gradient">Gradient</option>
+              </select>
+            </div>
+            {colorMode === 'single' && (
+              <label className="control">
+                <span className="control-label">Color</span>
+                <input
+                  type="color"
+                  value={singleColor}
+                  onChange={(e) => setSingleColor(e.target.value)}
+                  className="control-color"
+                />
+                <input
+                  type="text"
+                  value={singleColor}
+                  onChange={(e) => setSingleColor(e.target.value)}
+                  className="input input-small"
+                />
+              </label>
+            )}
+            {colorMode === 'gradient' && (
+              <>
+                <label className="control">
+                  <span className="control-label">Start</span>
+                  <input type="color" value={gradientStart} onChange={(e) => setGradientStart(e.target.value)} className="control-color" />
+                  <input type="text" value={gradientStart} onChange={(e) => setGradientStart(e.target.value)} className="input input-small" />
+                </label>
+                <label className="control">
+                  <span className="control-label">End</span>
+                  <input type="color" value={gradientEnd} onChange={(e) => setGradientEnd(e.target.value)} className="control-color" />
+                  <input type="text" value={gradientEnd} onChange={(e) => setGradientEnd(e.target.value)} className="input input-small" />
+                </label>
+                <label className="control">
+                  <span className="control-label">Angle (deg)</span>
+                  <input type="range" min={0} max={360} step={15} value={gradientAngle} onChange={(e) => setGradientAngle(Number(e.target.value))} />
+                  <span className="control-value">{gradientAngle}</span>
+                </label>
+              </>
+            )}
           </div>
         </div>
 
         <div className="loader-wrap large">
-          <Dots
+          <Mosaic
             src={displaySrc}
-            dotCount={dotCount}
-            width={320}
-            height={320}
+            gridSize={gridSize}
+            size={loaderSize}
             dotRadius={dotRadius}
             duration={duration}
             speed={speed}
@@ -340,24 +444,17 @@ export default function App() {
             renderMode="auto"
             shape={shape}
             crossOrigin={uploadedUrl ? '' : 'anonymous'}
+            color={
+              colorMode === 'single'
+                ? singleColor
+                : colorMode === 'gradient'
+                  ? { type: 'linear', angle: gradientAngle, stops: [{ offset: 0, color: gradientStart }, { offset: 1, color: gradientEnd }] }
+                  : undefined
+            }
           />
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="install-wrap">
-          <code className="install" title={NPM_INSTALL}>{NPM_INSTALL}</code>
-          <button
-            type="button"
-            onClick={copyInstall}
-            className="copy-btn"
-            title="Copy to clipboard"
-            aria-label="Copy install command"
-          >
-            {copied ? 'Copied!' : 'Copy'}
-          </button>
-        </div>
-      </footer>
     </div>
   );
 }
